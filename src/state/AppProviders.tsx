@@ -1,5 +1,7 @@
-import { Fragment, PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
+
+import { RoutineProvider } from '../features/routine/RoutineContext';
 
 export function AppProviders({ children }: PropsWithChildren) {
-  return <Fragment>{children}</Fragment>;
+  return <RoutineProvider>{children}</RoutineProvider>;
 }
