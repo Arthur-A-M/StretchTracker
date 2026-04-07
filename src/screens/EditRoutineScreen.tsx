@@ -1,5 +1,6 @@
+import * as React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '../components/AppButton';
@@ -46,6 +47,17 @@ export function EditRoutineScreen({ navigation }: Props) {
     setIsModalVisible(false);
   }
 
+  function handleDelete(stretchId: string) {
+    Alert.alert('Delete stretch?', 'This action cannot be undone.', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => removeStretch(stretchId),
+      },
+    ]);
+  }
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       <View style={styles.header}>
@@ -65,7 +77,7 @@ export function EditRoutineScreen({ navigation }: Props) {
         ) : stretches.length === 0 ? (
           <View style={styles.emptyState}>
             <Text style={styles.emptyTitle}>No stretches yet</Text>
-            <Text style={styles.emptyDescription}>Tap “Add New Stretch” to get started.</Text>
+            <Text style={styles.emptyDescription}>Tap "Add New Stretch" to get started.</Text>
           </View>
         ) : (
           stretches.map((stretch, index) => (
@@ -85,7 +97,7 @@ export function EditRoutineScreen({ navigation }: Props) {
                 <Pressable onPress={() => handleEdit(stretch)} style={styles.actionButton}>
                   <Text style={styles.editAction}>Edit</Text>
                 </Pressable>
-                <Pressable onPress={() => removeStretch(stretch.id)} style={styles.actionButton}>
+                <Pressable onPress={() => handleDelete(stretch.id)} style={styles.actionButton}>
                   <Text style={styles.deleteAction}>Delete</Text>
                 </Pressable>
               </View>
@@ -103,8 +115,6 @@ export function EditRoutineScreen({ navigation }: Props) {
     </SafeAreaView>
   );
 }
-
-import * as React from 'react';
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -144,6 +154,7 @@ const styles = StyleSheet.create({
   content: {
     padding: spacing.lg,
     gap: spacing.md,
+    paddingBottom: spacing.xxl,
   },
   infoText: {
     color: palette.textMuted,

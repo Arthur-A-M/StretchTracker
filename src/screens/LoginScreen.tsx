@@ -13,8 +13,13 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 export function LoginScreen({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const canLogin = email.trim().length > 0 && password.trim().length > 0;
 
   function handleLogin() {
+    if (!canLogin) {
+      return;
+    }
+
     navigation.replace('Home');
   }
 
@@ -42,6 +47,7 @@ export function LoginScreen({ navigation }: Props) {
                 placeholder="your@email.com"
                 placeholderTextColor={palette.textMuted}
                 style={styles.input}
+                textContentType="emailAddress"
                 value={email}
               />
             </View>
@@ -54,11 +60,12 @@ export function LoginScreen({ navigation }: Props) {
                 placeholderTextColor={palette.textMuted}
                 secureTextEntry
                 style={styles.input}
+                textContentType="password"
                 value={password}
               />
             </View>
 
-            <AppButton label="Login" onPress={handleLogin} />
+            <AppButton label="Login" onPress={handleLogin} disabled={!canLogin} />
 
             <Pressable style={styles.linkButton}>
               <Text style={styles.linkText}>Create account</Text>

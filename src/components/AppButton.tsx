@@ -13,6 +13,8 @@ type AppButtonProps = {
 export function AppButton({ label, onPress, variant = 'primary', disabled = false }: AppButtonProps) {
   return (
     <Pressable
+      accessibilityRole="button"
+      accessibilityState={{ disabled }}
       disabled={disabled}
       onPress={onPress}
       style={({ pressed }) => [

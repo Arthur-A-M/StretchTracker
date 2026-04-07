@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     padding: spacing.lg,
     gap: spacing.md,
+    paddingBottom: spacing.xxl,
   },
   emptyState: {
     borderRadius: radius.lg,
