@@ -32,7 +32,7 @@ export function RootNavigator() {
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="EditRoutine" component={EditRoutineScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Workout" component={WorkoutScreen} options={{ title: 'Workout' }} />
+      <Stack.Screen name="Workout" component={WorkoutScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
