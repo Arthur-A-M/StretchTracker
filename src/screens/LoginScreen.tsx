@@ -1,25 +1,140 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useState } from 'react';
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { AppButton } from '../components/AppButton';
 import { RootStackParamList } from '../navigation/routes';
-import { ScreenTemplate } from './ScreenTemplate';
+import { palette, shadows } from '../theme/palette';
+import { radius, spacing } from '../theme/spacing';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 export function LoginScreen({ navigation }: Props) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  function handleLogin() {
+    navigation.replace('Home');
+  }
+
   return (
-    <ScreenTemplate
-      eyebrow="Placeholder"
-      title="Login screen scaffold"
-      description="This will become the model site login layout in step three. Right now it exists so navigation, headers, and flow are stable."
-      bullets={[
-        'Screen registration and typing are complete.',
-        'This route sits in the same order as the model flow.',
-        'The real form and validation logic will be added later.',
-      ]}
-      actions={[
-        { label: 'Continue to home placeholder', onPress: () => navigation.navigate('Home') },
-        { label: 'Back to splash', onPress: () => navigation.goBack(), variant: 'secondary' },
-      ]}
-    />
+    <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={styles.keyboardView}
+      >
+        <View style={styles.container}>
+          <View style={styles.brandBlock}>
+            <Text style={styles.icon}>🧘</Text>
+            <Text style={styles.title}>StretchFlow</Text>
+            <Text style={styles.subtitle}>Daily stretching made simple</Text>
+          </View>
+
+          <View style={styles.card}>
+            <View style={styles.fieldGroup}>
+              <Text style={styles.label}>Email</Text>
+              <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="email-address"
+                onChangeText={setEmail}
+                placeholder="your@email.com"
+                placeholderTextColor={palette.textMuted}
+                style={styles.input}
+                value={email}
+              />
+            </View>
+
+            <View style={styles.fieldGroup}>
+              <Text style={styles.label}>Password</Text>
+              <TextInput
+                onChangeText={setPassword}
+                placeholder="••••••••"
+                placeholderTextColor={palette.textMuted}
+                secureTextEntry
+                style={styles.input}
+                value={password}
+              />
+            </View>
+
+            <AppButton label="Login" onPress={handleLogin} />
+
+            <Pressable style={styles.linkButton}>
+              <Text style={styles.linkText}>Create account</Text>
+            </Pressable>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#F4FBFB',
+  },
+  keyboardView: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.xl,
+    gap: spacing.xl,
+  },
+  brandBlock: {
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  icon: {
+    fontSize: 54,
+  },
+  title: {
+    color: palette.text,
+    fontSize: 34,
+    fontWeight: '300',
+    letterSpacing: 0.8,
+  },
+  subtitle: {
+    color: palette.textMuted,
+    fontSize: 16,
+  },
+  card: {
+    borderRadius: radius.lg,
+    backgroundColor: palette.surface,
+    borderWidth: 1,
+    borderColor: palette.border,
+    padding: spacing.lg,
+    gap: spacing.lg,
+    ...shadows.card,
+  },
+  fieldGroup: {
+    gap: spacing.xs,
+  },
+  label: {
+    color: palette.text,
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  input: {
+    minHeight: 54,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: palette.border,
+    backgroundColor: palette.surface,
+    paddingHorizontal: spacing.md,
+    color: palette.text,
+    fontSize: 16,
+  },
+  linkButton: {
+    alignSelf: 'center',
+  },
+  linkText: {
+    color: palette.teal,
+    fontSize: 14,
+    fontWeight: '600',
+  },
+});

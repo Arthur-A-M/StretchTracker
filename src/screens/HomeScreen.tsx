@@ -1,25 +1,214 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { AppButton } from '../components/AppButton';
+import { useRoutine } from '../features/routine/RoutineContext';
 import { RootStackParamList } from '../navigation/routes';
-import { ScreenTemplate } from './ScreenTemplate';
+import { palette, shadows } from '../theme/palette';
+import { radius, spacing } from '../theme/spacing';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export function HomeScreen({ navigation }: Props) {
+  const { isLoading, stretches } = useRoutine();
+
+  const totalDuration = stretches.reduce((total, stretch) => {
+    const stretchTime = stretch.duration * stretch.sets;
+    const restTime = stretch.restTime * (stretch.sets - 1);
+    return total + stretchTime + restTime;
+  }, 0);
+
+  function formatTime(seconds: number) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+
+    if (minutes > 0) {
+      return `${minutes}m ${remainingSeconds}s`;
+    }
+
+    return `${remainingSeconds}s`;
+  }
+
   return (
-    <ScreenTemplate
-      eyebrow="Placeholder"
-      title="Home screen scaffold"
-      description="This foundation screen reserves the main routine overview route and establishes the shared visual container for the later port."
-      bullets={[
-        'Primary user flow already reaches the main app area.',
-        'Reusable cards, spacing, and button styles are available.',
-        'Routine summary content will replace this copy in the next implementation step.',
-      ]}
-      actions={[
-        { label: 'Open edit placeholder', onPress: () => navigation.navigate('EditRoutine') },
-        { label: 'Open workout placeholder', onPress: () => navigation.navigate('Workout'), variant: 'secondary' },
-      ]}
-    />
+    <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.headerTitle}>Today's Routine</Text>
+          <Text style={styles.headerMeta}>
+            {isLoading ? 'Loading routine...' : `${stretches.length} stretches • ${formatTime(totalDuration)}`}
+          </Text>
+        </View>
+        <Text style={styles.headerIcon}>🧘</Text>
+      </View>
+
+      <View style={styles.headerActions}>
+        <View style={styles.primaryAction}>
+          <AppButton
+            label="Start Routine"
+            onPress={() => navigation.navigate('Workout')}
+            disabled={isLoading || stretches.length === 0}
+          />
+        </View>
+        <View style={styles.secondaryAction}>
+          <AppButton
+            label="Edit"
+            onPress={() => navigation.navigate('EditRoutine')}
+            variant="secondary"
+          />
+        </View>
+      </View>
+
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        {!isLoading && stretches.length === 0 ? (
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyTitle}>No stretches in your routine</Text>
+            <Text style={styles.emptyDescription}>
+              Add your first stretch in the editor before starting the session.
+            </Text>
+            <AppButton
+              label="Add Your First Stretch"
+              onPress={() => navigation.navigate('EditRoutine')}
+              variant="secondary"
+            />
+          </View>
+        ) : (
+          stretches.map((stretch, index) => (
+            <View key={stretch.id} style={styles.card}>
+              <Image source={{ uri: stretch.image }} style={styles.cardImage} />
+              <View style={styles.cardBody}>
+                <View style={styles.cardHeader}>
+                  <View>
+                    <Text style={styles.cardIndex}>#{index + 1}</Text>
+                    <Text style={styles.cardTitle}>{stretch.name}</Text>
+                  </View>
+                </View>
+                <View style={styles.metricsRow}>
+                  <Text style={styles.metricText}>⏱ {stretch.duration}s</Text>
+                  <Text style={styles.metricText}>🔁 {stretch.sets} sets</Text>
+                  <Text style={styles.metricSubtle}>Rest: {stretch.restTime}s</Text>
+                </View>
+              </View>
+            </View>
+          ))
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#F4FBFB',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.md,
+    backgroundColor: 'rgba(255,255,255,0.88)',
+    borderBottomWidth: 1,
+    borderBottomColor: '#DDECEC',
+  },
+  headerTitle: {
+    color: palette.text,
+    fontSize: 30,
+    fontWeight: '300',
+  },
+  headerMeta: {
+    marginTop: 4,
+    color: palette.textMuted,
+    fontSize: 14,
+  },
+  headerIcon: {
+    fontSize: 32,
+  },
+  headerActions: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.md,
+  },
+  primaryAction: {
+    flex: 1,
+  },
+  secondaryAction: {
+    width: 110,
+  },
+  scrollContent: {
+    padding: spacing.lg,
+    gap: spacing.md,
+  },
+  emptyState: {
+    borderRadius: radius.lg,
+    backgroundColor: palette.surface,
+    borderWidth: 1,
+    borderColor: palette.border,
+    padding: spacing.xl,
+    gap: spacing.md,
+    alignItems: 'center',
+    ...shadows.card,
+  },
+  emptyTitle: {
+    color: palette.text,
+    fontSize: 20,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  emptyDescription: {
+    color: palette.textMuted,
+    fontSize: 15,
+    lineHeight: 22,
+    textAlign: 'center',
+  },
+  card: {
+    flexDirection: 'row',
+    overflow: 'hidden',
+    borderRadius: radius.md,
+    backgroundColor: palette.surface,
+    borderWidth: 1,
+    borderColor: '#DDECEC',
+    ...shadows.card,
+  },
+  cardImage: {
+    width: 96,
+    height: 96,
+    backgroundColor: palette.surfaceMuted,
+  },
+  cardBody: {
+    flex: 1,
+    padding: spacing.md,
+    justifyContent: 'space-between',
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  cardIndex: {
+    color: palette.textMuted,
+    fontSize: 12,
+    marginBottom: 4,
+  },
+  cardTitle: {
+    color: palette.text,
+    fontSize: 17,
+    fontWeight: '600',
+  },
+  metricsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  metricText: {
+    color: '#385B62',
+    fontSize: 13,
+  },
+  metricSubtle: {
+    color: palette.textMuted,
+    fontSize: 12,
+  },
+});

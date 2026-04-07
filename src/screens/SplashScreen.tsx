@@ -1,24 +1,53 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useEffect } from 'react';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '../navigation/routes';
-import { ScreenTemplate } from './ScreenTemplate';
+import { palette } from '../theme/palette';
+import { spacing } from '../theme/spacing';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 
 export function SplashScreen({ navigation }: Props) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.replace('Login');
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [navigation]);
+
   return (
-    <ScreenTemplate
-      eyebrow="Step One"
-      title="App shell is ready"
-      description="This screen confirms the Expo app now has the same route map as the design model, even before the real UI is ported."
-      bullets={[
-        'Root navigation is wired for the five model screens.',
-        'Theme tokens and reusable layout components are in place.',
-        'Later steps can replace these placeholders without changing the app structure.',
-      ]}
-      actions={[
-        { label: 'Go to login placeholder', onPress: () => navigation.navigate('Login') },
-      ]}
-    />
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <Text style={styles.icon}>🧘</Text>
+        <Text style={styles.title}>StretchFlow</Text>
+        <ActivityIndicator size="large" color={palette.teal} />
+      </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#EAF9F7',
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.xl,
+    padding: spacing.xl,
+  },
+  icon: {
+    fontSize: 64,
+  },
+  title: {
+    color: palette.text,
+    fontSize: 38,
+    fontWeight: '300',
+    letterSpacing: 1,
+  },
+});

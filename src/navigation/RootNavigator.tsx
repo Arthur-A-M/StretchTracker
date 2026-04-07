@@ -29,8 +29,8 @@ export function RootNavigator() {
       }}
     >
       <Stack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Login' }} />
-      <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
+      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="EditRoutine" component={EditRoutineScreen} options={{ title: 'Edit Routine' }} />
       <Stack.Screen name="Workout" component={WorkoutScreen} options={{ title: 'Workout' }} />
     </Stack.Navigator>
