@@ -14,7 +14,8 @@ import {
 
 import { AppButton } from '../../components/AppButton';
 import { t } from '../../i18n';
-import { palette, shadows } from '../../theme/palette';
+import { usePalette, usePreferences } from '../../state/PreferencesContext';
+import { Palette, shadows } from '../../theme/palette';
 import { radius, spacing } from '../../theme/spacing';
 import { Stretch } from './types';
 
@@ -28,6 +29,10 @@ type StretchEditorModalProps = {
 };
 
 export function StretchEditorModal({ visible, stretch, onClose, onSave }: StretchEditorModalProps) {
+  const { theme } = usePreferences();
+  const palette = usePalette();
+  const isDark = theme === 'dark';
+  const styles = makeStyles(palette, isDark);
   const [name, setName] = useState('');
   const [image, setImage] = useState('');
   const [duration, setDuration] = useState(30);
@@ -159,6 +164,7 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
               value={duration}
               onDecrement={() => adjustValue(duration, -5, 10, 300, setDuration)}
               onIncrement={() => adjustValue(duration, 5, 10, 300, setDuration)}
+              styles={styles}
             />
 
             <NumberField
@@ -167,6 +173,7 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
               value={sets}
               onDecrement={() => adjustValue(sets, -1, 1, 10, setSets)}
               onIncrement={() => adjustValue(sets, 1, 1, 10, setSets)}
+              styles={styles}
             />
 
             <NumberField
@@ -175,6 +182,7 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
               value={restTime}
               onDecrement={() => adjustValue(restTime, -5, 0, 120, setRestTime)}
               onIncrement={() => adjustValue(restTime, 5, 0, 120, setRestTime)}
+              styles={styles}
             />
 
             <View style={styles.footerActions}>
@@ -198,9 +206,10 @@ type NumberFieldProps = {
   suffix: string;
   onDecrement: () => void;
   onIncrement: () => void;
+  styles: ReturnType<typeof makeStyles>;
 };
 
-function NumberField({ label, value, suffix, onDecrement, onIncrement }: NumberFieldProps) {
+function NumberField({ label, value, suffix, onDecrement, onIncrement, styles }: NumberFieldProps) {
   return (
     <View style={styles.fieldGroup}>
       <Text style={styles.label}>{label}</Text>
@@ -220,11 +229,12 @@ function NumberField({ label, value, suffix, onDecrement, onIncrement }: NumberF
   );
 }
 
-const styles = StyleSheet.create({
+function makeStyles(palette: Palette, isDark: boolean) {
+  return StyleSheet.create({
   overlay: {
     flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor: 'rgba(20, 50, 58, 0.28)',
+    backgroundColor: isDark ? 'rgba(0,0,0,0.5)' : 'rgba(20, 50, 58, 0.28)',
   },
   sheet: {
     maxHeight: '92%',
@@ -284,7 +294,7 @@ const styles = StyleSheet.create({
     borderColor: palette.border,
     borderRadius: radius.md,
     padding: spacing.md,
-    backgroundColor: '#FBFEFE',
+    backgroundColor: palette.surface,
     gap: spacing.md,
   },
   previewImage: {
@@ -353,4 +363,5 @@ const styles = StyleSheet.create({
   footerButton: {
     flex: 1,
   },
-});
+  });
+}

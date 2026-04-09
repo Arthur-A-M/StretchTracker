@@ -77,4 +77,14 @@ export const ptBR = {
     permissionTitle: 'Permissão necessária',
     permissionMessage: 'Permita o acesso à biblioteca de fotos para escolher uma imagem de alongamento.',
   },
+
+  configuration: {
+    title: 'Configurações',
+    themeSection: 'Aparência',
+    lightMode: 'Claro',
+    darkMode: 'Escuro',
+    languageSection: 'Idioma',
+    english: 'English',
+    portuguese: 'Português (BR)',
+  },
 };

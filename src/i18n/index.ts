@@ -18,3 +18,7 @@ i18n.locale = languageTag?.startsWith('pt') ? 'pt-BR' : 'en';
 export function t(scope: string, options?: Record<string, unknown>) {
   return i18n.t(scope, options);
 }
+
+export function setAppLocale(locale: 'en' | 'pt-BR') {
+  i18n.locale = locale;
+}

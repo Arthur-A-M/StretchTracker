@@ -7,7 +7,8 @@ import { AppButton } from '../components/AppButton';
 import { useRoutine } from '../features/routine/RoutineContext';
 import { t } from '../i18n';
 import { RootStackParamList } from '../navigation/routes';
-import { palette, shadows } from '../theme/palette';
+import { usePalette, usePreferences } from '../state/PreferencesContext';
+import { Palette, shadows } from '../theme/palette';
 import { radius, spacing } from '../theme/spacing';
 
 type WorkoutState = 'stretching' | 'resting' | 'complete';
@@ -16,6 +17,10 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Workout'>;
 
 export function WorkoutScreen({ navigation }: Props) {
   const { stretches, isLoading } = useRoutine();
+  const { theme } = usePreferences();
+  const palette = usePalette();
+  const isDark = theme === 'dark';
+  const styles = makeStyles(palette, isDark);
   const [currentStretchIndex, setCurrentStretchIndex] = useState(0);
   const [currentSet, setCurrentSet] = useState(1);
   const [timeRemaining, setTimeRemaining] = useState(0);
@@ -200,17 +205,18 @@ export function WorkoutScreen({ navigation }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
+function makeStyles(palette: Palette, isDark: boolean) {
+  return StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#F4FBFB',
+    backgroundColor: palette.background,
   },
   centeredScreen: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: spacing.lg,
-    backgroundColor: '#F4FBFB',
+    backgroundColor: palette.background,
   },
   emptyTitle: {
     color: palette.textMuted,
@@ -225,7 +231,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: spacing.lg,
-    backgroundColor: '#EFFBF9',
+    backgroundColor: isDark ? palette.background : '#EFFBF9',
   },
   completeCard: {
     width: '100%',
@@ -263,9 +269,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.sm,
     paddingBottom: spacing.md,
-    backgroundColor: 'rgba(255,255,255,0.88)',
+    backgroundColor: isDark ? 'rgba(22,42,48,0.95)' : 'rgba(255,255,255,0.88)',
     borderBottomWidth: 1,
-    borderBottomColor: '#DDECEC',
+    borderBottomColor: palette.border,
     gap: spacing.sm,
   },
   headerRow: {
@@ -285,13 +291,13 @@ const styles = StyleSheet.create({
     lineHeight: 32,
   },
   stepCount: {
-    color: '#4F6B71',
+    color: palette.textMuted,
     fontSize: 14,
   },
   progressTrack: {
     height: 8,
     borderRadius: radius.pill,
-    backgroundColor: '#DDECEC',
+    backgroundColor: palette.surfaceMuted,
     overflow: 'hidden',
   },
   progressFill: {
@@ -305,7 +311,7 @@ const styles = StyleSheet.create({
   imageWrap: {
     position: 'relative',
     height: 260,
-    backgroundColor: '#DDECEC',
+    backgroundColor: palette.surfaceMuted,
   },
   image: {
     width: '100%',
@@ -316,7 +322,7 @@ const styles = StyleSheet.create({
     top: spacing.md,
     right: spacing.md,
     borderRadius: radius.pill,
-    backgroundColor: 'rgba(255,255,255,0.92)',
+    backgroundColor: isDark ? 'rgba(22,42,48,0.92)' : 'rgba(255,255,255,0.92)',
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs,
   },
@@ -392,8 +398,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   nextUpName: {
-    color: '#385B62',
+    color: palette.tealDark,
     fontSize: 16,
     fontWeight: '500',
   },
-});
+  });
+}

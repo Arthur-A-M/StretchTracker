@@ -77,4 +77,14 @@ export const en = {
     permissionTitle: 'Permission required',
     permissionMessage: 'Allow photo library access to choose a stretch image.',
   },
+
+  configuration: {
+    title: 'Configuration',
+    themeSection: 'Appearance',
+    lightMode: 'Light',
+    darkMode: 'Dark',
+    languageSection: 'Language',
+    english: 'English',
+    portuguese: 'Português (BR)',
+  },
 };

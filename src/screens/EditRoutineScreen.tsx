@@ -9,13 +9,18 @@ import { useRoutine } from '../features/routine/RoutineContext';
 import { Stretch } from '../features/routine/types';
 import { t } from '../i18n';
 import { RootStackParamList } from '../navigation/routes';
-import { palette, shadows } from '../theme/palette';
+import { usePalette, usePreferences } from '../state/PreferencesContext';
+import { Palette, shadows } from '../theme/palette';
 import { radius, spacing } from '../theme/spacing';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EditRoutine'>;
 
 export function EditRoutineScreen({ navigation }: Props) {
   const { stretches, isLoading, createStretch, updateStretch, removeStretch } = useRoutine();
+  const { theme } = usePreferences();
+  const palette = usePalette();
+  const isDark = theme === 'dark';
+  const styles = makeStyles(palette, isDark);
   const [editingStretch, setEditingStretch] = React.useState<Stretch | null>(null);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
 
@@ -121,19 +126,20 @@ export function EditRoutineScreen({ navigation }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
+function makeStyles(palette: Palette, isDark: boolean) {
+  return StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#F4FBFB',
+    backgroundColor: palette.background,
   },
   header: {
     gap: spacing.md,
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.md,
     paddingBottom: spacing.md,
-    backgroundColor: 'rgba(255,255,255,0.88)',
+    backgroundColor: isDark ? 'rgba(22,42,48,0.95)' : 'rgba(255,255,255,0.88)',
     borderBottomWidth: 1,
-    borderBottomColor: '#DDECEC',
+    borderBottomColor: palette.border,
   },
   headerRow: {
     flexDirection: 'row',
@@ -177,7 +183,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xs,
   },
   emptyDescription: {
-    color: '#9AAEB3',
+    color: palette.textMuted,
     fontSize: 14,
   },
   card: {
@@ -187,7 +193,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     backgroundColor: palette.surface,
     borderWidth: 1,
-    borderColor: '#DDECEC',
+    borderColor: palette.border,
     ...shadows.card,
   },
   dragHandle: {
@@ -195,7 +201,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.lg,
   },
   dragHandleText: {
-    color: '#9AAEB3',
+    color: palette.textMuted,
     fontSize: 18,
     letterSpacing: -1,
   },
@@ -221,7 +227,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   cardMeta: {
-    color: '#4F6B71',
+    color: palette.textMuted,
     fontSize: 13,
     lineHeight: 18,
   },
@@ -243,4 +249,5 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '700',
   },
-});
+  });
+}

@@ -1,16 +1,19 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { ConfigurationScreen } from '../screens/ConfigurationScreen';
 import { EditRoutineScreen } from '../screens/EditRoutineScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { LoginScreen } from '../screens/LoginScreen';
 import { SplashScreen } from '../screens/SplashScreen';
 import { WorkoutScreen } from '../screens/WorkoutScreen';
-import { palette } from '../theme/palette';
+import { usePalette } from '../state/PreferencesContext';
 import { RootStackParamList } from './routes';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export function RootNavigator() {
+  const palette = usePalette();
+
   return (
     <Stack.Navigator
       initialRouteName="Splash"
@@ -33,6 +36,7 @@ export function RootNavigator() {
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="EditRoutine" component={EditRoutineScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Workout" component={WorkoutScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Configuration" component={ConfigurationScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }

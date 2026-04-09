@@ -4,4 +4,5 @@ export type RootStackParamList = {
   Home: undefined;
   EditRoutine: undefined;
   Workout: undefined;
+  Configuration: undefined;
 };
