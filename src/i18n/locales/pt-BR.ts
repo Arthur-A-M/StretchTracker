@@ -52,6 +52,7 @@ export const ptBR = {
     loadingStretches: 'Carregando alongamentos...',
     emptyTitle: 'Nenhum alongamento ainda',
     emptyDescription: 'Toque em "Adicionar Alongamento" para começar.',
+    cardMeta: '%{duration}s • %{sets} séries • Descanso: %{restTime}s',
     editAction: 'Editar',
     deleteAction: 'Excluir',
     deleteConfirmTitle: 'Excluir alongamento?',

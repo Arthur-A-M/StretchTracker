@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import { AppButton } from '../../components/AppButton';
+import { t } from '../../i18n';
 import { palette, shadows } from '../../theme/palette';
 import { radius, spacing } from '../../theme/spacing';
 import { Stretch } from './types';
@@ -58,7 +59,7 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (!permission.granted) {
-      Alert.alert('Permission required', 'Allow photo library access to choose a stretch image.');
+      Alert.alert(t('stretchEditor.permissionTitle'), t('stretchEditor.permissionMessage'));
       return;
     }
 
@@ -114,18 +115,18 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
       <View style={styles.overlay}>
         <View style={styles.sheet}>
           <View style={styles.header}>
-            <Text style={styles.title}>{stretch ? 'Edit Stretch' : 'Add New Stretch'}</Text>
+            <Text style={styles.title}>{stretch ? t('stretchEditor.titleEdit') : t('stretchEditor.titleAdd')}</Text>
             <Pressable onPress={onClose} style={styles.closeButton}>
-              <Text style={styles.closeButtonText}>Close</Text>
+              <Text style={styles.closeButtonText}>{t('common.close')}</Text>
             </Pressable>
           </View>
 
           <ScrollView contentContainerStyle={styles.content}>
             <View style={styles.fieldGroup}>
-              <Text style={styles.label}>Stretch Name</Text>
+              <Text style={styles.label}>{t('stretchEditor.nameLabel')}</Text>
               <TextInput
                 onChangeText={setName}
-                placeholder="e.g., Neck Rolls"
+                placeholder={t('stretchEditor.namePlaceholder')}
                 placeholderTextColor={palette.textMuted}
                 style={styles.input}
                 value={name}
@@ -133,44 +134,44 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
             </View>
 
             <View style={styles.fieldGroup}>
-              <Text style={styles.label}>Image</Text>
+              <Text style={styles.label}>{t('stretchEditor.imageLabel')}</Text>
               <View style={styles.imagePickerBox}>
                 {image ? (
                   <>
                     <Image source={{ uri: image }} style={styles.previewImage} />
                     <View style={styles.imageActions}>
-                      <AppButton label="Change Image" onPress={() => void handlePickImage()} variant="secondary" />
-                      <AppButton label="Remove" onPress={() => setImage('')} variant="secondary" />
+                      <AppButton label={t('stretchEditor.changeImage')} onPress={() => void handlePickImage()} variant="secondary" />
+                      <AppButton label={t('stretchEditor.removeImage')} onPress={() => setImage('')} variant="secondary" />
                     </View>
                   </>
                 ) : (
                   <Pressable onPress={() => void handlePickImage()} style={styles.imagePlaceholder}>
                     <Text style={styles.imagePlaceholderIcon}>⬆</Text>
-                    <Text style={styles.imagePlaceholderText}>Tap to upload image</Text>
+                    <Text style={styles.imagePlaceholderText}>{t('stretchEditor.uploadPrompt')}</Text>
                   </Pressable>
                 )}
               </View>
             </View>
 
             <NumberField
-              label="Duration (seconds)"
-              suffix="sec"
+              label={t('stretchEditor.durationLabel')}
+              suffix={t('stretchEditor.durationSuffix')}
               value={duration}
               onDecrement={() => adjustValue(duration, -5, 10, 300, setDuration)}
               onIncrement={() => adjustValue(duration, 5, 10, 300, setDuration)}
             />
 
             <NumberField
-              label="Number of Sets"
-              suffix="sets"
+              label={t('stretchEditor.setsLabel')}
+              suffix={t('stretchEditor.setsSuffix')}
               value={sets}
               onDecrement={() => adjustValue(sets, -1, 1, 10, setSets)}
               onIncrement={() => adjustValue(sets, 1, 1, 10, setSets)}
             />
 
             <NumberField
-              label="Rest Time Between Sets (seconds)"
-              suffix="sec"
+              label={t('stretchEditor.restTimeLabel')}
+              suffix={t('stretchEditor.restTimeSuffix')}
               value={restTime}
               onDecrement={() => adjustValue(restTime, -5, 0, 120, setRestTime)}
               onIncrement={() => adjustValue(restTime, 5, 0, 120, setRestTime)}
@@ -178,10 +179,10 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
 
             <View style={styles.footerActions}>
               <View style={styles.footerButton}>
-                <AppButton label="Cancel" onPress={onClose} variant="secondary" />
+                <AppButton label={t('common.cancel')} onPress={onClose} variant="secondary" />
               </View>
               <View style={styles.footerButton}>
-                <AppButton label="Save" onPress={handleSubmit} disabled={!name.trim() || !image} />
+                <AppButton label={t('common.save')} onPress={handleSubmit} disabled={!name.trim() || !image} />
               </View>
             </View>
           </ScrollView>

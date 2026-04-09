@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '../components/AppButton';
 import { useRoutine } from '../features/routine/RoutineContext';
+import { t } from '../i18n';
 import { RootStackParamList } from '../navigation/routes';
 import { palette, shadows } from '../theme/palette';
 import { radius, spacing } from '../theme/spacing';
@@ -34,9 +35,14 @@ export function HomeScreen({ navigation }: Props) {
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.headerTitle}>Today's Routine</Text>
+          <Text style={styles.headerTitle}>{t('home.title')}</Text>
           <Text style={styles.headerMeta}>
-            {isLoading ? 'Loading routine...' : `${stretches.length} stretches • ${formatTime(totalDuration)}`}
+            {isLoading
+              ? t('common.loadingRoutine')
+              : t('home.routineSummary', {
+                  count: stretches.length,
+                  duration: formatTime(totalDuration),
+                })}
           </Text>
         </View>
         <Text style={styles.headerIcon}>🧘</Text>
@@ -45,14 +51,14 @@ export function HomeScreen({ navigation }: Props) {
       <View style={styles.headerActions}>
         <View style={styles.primaryAction}>
           <AppButton
-            label="Start Routine"
+            label={t('home.startRoutine')}
             onPress={() => navigation.navigate('Workout')}
             disabled={isLoading || stretches.length === 0}
           />
         </View>
         <View style={styles.secondaryAction}>
           <AppButton
-            label="Edit"
+            label={t('common.edit')}
             onPress={() => navigation.navigate('EditRoutine')}
             variant="secondary"
           />
@@ -62,12 +68,12 @@ export function HomeScreen({ navigation }: Props) {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {!isLoading && stretches.length === 0 ? (
           <View style={styles.emptyState}>
-            <Text style={styles.emptyTitle}>No stretches in your routine</Text>
+            <Text style={styles.emptyTitle}>{t('home.emptyTitle')}</Text>
             <Text style={styles.emptyDescription}>
-              Add your first stretch in the editor before starting the session.
+              {t('home.emptyDescription')}
             </Text>
             <AppButton
-              label="Add Your First Stretch"
+              label={t('home.emptyAction')}
               onPress={() => navigation.navigate('EditRoutine')}
               variant="secondary"
             />
@@ -84,9 +90,9 @@ export function HomeScreen({ navigation }: Props) {
                   </View>
                 </View>
                 <View style={styles.metricsRow}>
-                  <Text style={styles.metricText}>⏱ {stretch.duration}s</Text>
-                  <Text style={styles.metricText}>🔁 {stretch.sets} sets</Text>
-                  <Text style={styles.metricSubtle}>Rest: {stretch.restTime}s</Text>
+                  <Text style={styles.metricText}>{t('home.metricDuration', { value: stretch.duration })}</Text>
+                  <Text style={styles.metricText}>{t('home.metricSets', { value: stretch.sets })}</Text>
+                  <Text style={styles.metricSubtle}>{t('home.metricRest', { value: stretch.restTime })}</Text>
                 </View>
               </View>
             </View>

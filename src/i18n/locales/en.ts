@@ -52,6 +52,7 @@ export const en = {
     loadingStretches: 'Loading stretches...',
     emptyTitle: 'No stretches yet',
     emptyDescription: 'Tap "Add New Stretch" to get started.',
+    cardMeta: '%{duration}s • %{sets} sets • Rest: %{restTime}s',
     editAction: 'Edit',
     deleteAction: 'Delete',
     deleteConfirmTitle: 'Delete stretch?',

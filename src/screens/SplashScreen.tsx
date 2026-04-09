@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { t } from '../i18n';
 import { RootStackParamList } from '../navigation/routes';
 import { palette } from '../theme/palette';
 import { spacing } from '../theme/spacing';
@@ -22,7 +23,7 @@ export function SplashScreen({ navigation }: Props) {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <Text style={styles.icon}>🧘</Text>
-        <Text style={styles.title}>StretchFlow</Text>
+        <Text style={styles.title}>{t('common.appName')}</Text>
         <ActivityIndicator size="large" color={palette.teal} />
       </View>
     </SafeAreaView>

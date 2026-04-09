@@ -7,6 +7,7 @@ import { AppButton } from '../components/AppButton';
 import { StretchEditorModal } from '../features/routine/StretchEditorModal';
 import { useRoutine } from '../features/routine/RoutineContext';
 import { Stretch } from '../features/routine/types';
+import { t } from '../i18n';
 import { RootStackParamList } from '../navigation/routes';
 import { palette, shadows } from '../theme/palette';
 import { radius, spacing } from '../theme/spacing';
@@ -48,10 +49,10 @@ export function EditRoutineScreen({ navigation }: Props) {
   }
 
   function handleDelete(stretchId: string) {
-    Alert.alert('Delete stretch?', 'This action cannot be undone.', [
-      { text: 'Cancel', style: 'cancel' },
+    Alert.alert(t('editRoutine.deleteConfirmTitle'), t('editRoutine.deleteConfirmMessage'), [
+      { text: t('common.cancel'), style: 'cancel' },
       {
-        text: 'Delete',
+        text: t('common.delete'),
         style: 'destructive',
         onPress: () => removeStretch(stretchId),
       },
@@ -65,19 +66,19 @@ export function EditRoutineScreen({ navigation }: Props) {
           <Pressable onPress={() => navigation.navigate('Home')} style={styles.backButton}>
             <Text style={styles.backButtonText}>‹</Text>
           </Pressable>
-          <Text style={styles.title}>Edit Routine</Text>
+          <Text style={styles.title}>{t('editRoutine.title')}</Text>
         </View>
 
-        <AppButton label="Add New Stretch" onPress={handleAddNew} />
+        <AppButton label={t('editRoutine.addNewStretch')} onPress={handleAddNew} />
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
         {isLoading ? (
-          <Text style={styles.infoText}>Loading stretches...</Text>
+          <Text style={styles.infoText}>{t('editRoutine.loadingStretches')}</Text>
         ) : stretches.length === 0 ? (
           <View style={styles.emptyState}>
-            <Text style={styles.emptyTitle}>No stretches yet</Text>
-            <Text style={styles.emptyDescription}>Tap "Add New Stretch" to get started.</Text>
+            <Text style={styles.emptyTitle}>{t('editRoutine.emptyTitle')}</Text>
+            <Text style={styles.emptyDescription}>{t('editRoutine.emptyDescription')}</Text>
           </View>
         ) : (
           stretches.map((stretch, index) => (
@@ -90,15 +91,19 @@ export function EditRoutineScreen({ navigation }: Props) {
                 <Text style={styles.index}>#{index + 1}</Text>
                 <Text style={styles.cardTitle}>{stretch.name}</Text>
                 <Text style={styles.cardMeta}>
-                  {stretch.duration}s • {stretch.sets} sets • Rest: {stretch.restTime}s
+                  {t('editRoutine.cardMeta', {
+                    duration: stretch.duration,
+                    sets: stretch.sets,
+                    restTime: stretch.restTime,
+                  })}
                 </Text>
               </View>
               <View style={styles.actions}>
                 <Pressable onPress={() => handleEdit(stretch)} style={styles.actionButton}>
-                  <Text style={styles.editAction}>Edit</Text>
+                  <Text style={styles.editAction}>{t('editRoutine.editAction')}</Text>
                 </Pressable>
                 <Pressable onPress={() => handleDelete(stretch.id)} style={styles.actionButton}>
-                  <Text style={styles.deleteAction}>Delete</Text>
+                  <Text style={styles.deleteAction}>{t('editRoutine.deleteAction')}</Text>
                 </Pressable>
               </View>
             </View>

@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '../components/AppButton';
 import { useRoutine } from '../features/routine/RoutineContext';
+import { t } from '../i18n';
 import { RootStackParamList } from '../navigation/routes';
 import { palette, shadows } from '../theme/palette';
 import { radius, spacing } from '../theme/spacing';
@@ -112,7 +113,7 @@ export function WorkoutScreen({ navigation }: Props) {
   if (isLoading) {
     return (
       <SafeAreaView style={styles.centeredScreen}>
-        <Text style={styles.emptyTitle}>Loading routine...</Text>
+        <Text style={styles.emptyTitle}>{t('common.loadingRoutine')}</Text>
       </SafeAreaView>
     );
   }
@@ -120,9 +121,9 @@ export function WorkoutScreen({ navigation }: Props) {
   if (!currentStretch || stretches.length === 0) {
     return (
       <SafeAreaView style={styles.centeredScreen}>
-        <Text style={styles.emptyTitle}>No stretches in routine</Text>
+        <Text style={styles.emptyTitle}>{t('workout.noStretches')}</Text>
         <View style={styles.emptyAction}>
-          <AppButton label="Go to Home" onPress={() => navigation.navigate('Home')} variant="secondary" />
+          <AppButton label={t('workout.goHome')} onPress={() => navigation.navigate('Home')} variant="secondary" />
         </View>
       </SafeAreaView>
     );
@@ -133,10 +134,10 @@ export function WorkoutScreen({ navigation }: Props) {
       <SafeAreaView style={styles.completeScreen}>
         <View style={styles.completeCard}>
           <Text style={styles.completeIcon}>✓</Text>
-          <Text style={styles.completeTitle}>Well Done!</Text>
-          <Text style={styles.completeDescription}>You've completed your stretching routine</Text>
+          <Text style={styles.completeTitle}>{t('workout.completeTitle')}</Text>
+          <Text style={styles.completeDescription}>{t('workout.completeDescription')}</Text>
           <View style={styles.completeAction}>
-            <AppButton label="Finish" onPress={handleFinish} />
+            <AppButton label={t('workout.finish')} onPress={handleFinish} />
           </View>
         </View>
       </SafeAreaView>
@@ -163,33 +164,33 @@ export function WorkoutScreen({ navigation }: Props) {
         <View style={styles.imageWrap}>
           <Image source={{ uri: currentStretch.image }} style={styles.image} />
           <View style={styles.modeBadge}>
-            <Text style={styles.modeBadgeText}>{state === 'stretching' ? 'Stretch' : 'Rest'}</Text>
+            <Text style={styles.modeBadgeText}>{state === 'stretching' ? t('workout.stretchMode') : t('workout.restMode')}</Text>
           </View>
         </View>
 
         <View style={styles.body}>
           <Text style={styles.name}>{currentStretch.name}</Text>
           <Text style={styles.setLabel}>
-            Set {currentSet} of {currentStretch.sets}
+            {t('workout.setLabel', { current: currentSet, total: currentStretch.sets })}
           </Text>
 
           <View style={styles.timerWrap}>
             <Text style={styles.timerValue}>{timeRemaining}</Text>
-            <Text style={styles.timerUnit}>seconds</Text>
+            <Text style={styles.timerUnit}>{t('workout.timerUnit')}</Text>
           </View>
 
           <View style={styles.controls}>
             <Pressable onPress={() => setIsPaused((previousValue) => !previousValue)} style={styles.pauseButton}>
-              <Text style={styles.pauseButtonText}>{isPaused ? 'Play' : 'Pause'}</Text>
+              <Text style={styles.pauseButtonText}>{isPaused ? t('workout.play') : t('workout.pause')}</Text>
             </Pressable>
             <View style={styles.skipButtonWrap}>
-              <AppButton label="Skip" onPress={handleSkip} variant="secondary" />
+              <AppButton label={t('workout.skip')} onPress={handleSkip} variant="secondary" />
             </View>
           </View>
 
           {!isLastStretch && isLastSet ? (
             <View style={styles.nextUpWrap}>
-              <Text style={styles.nextUpLabel}>Next up</Text>
+              <Text style={styles.nextUpLabel}>{t('workout.nextUp')}</Text>
               <Text style={styles.nextUpName}>{stretches[currentStretchIndex + 1].name}</Text>
             </View>
           ) : null}

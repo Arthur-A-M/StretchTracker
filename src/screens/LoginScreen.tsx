@@ -4,6 +4,7 @@ import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput,
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '../components/AppButton';
+import { t } from '../i18n';
 import { RootStackParamList } from '../navigation/routes';
 import { palette, shadows } from '../theme/palette';
 import { radius, spacing } from '../theme/spacing';
@@ -32,19 +33,19 @@ export function LoginScreen({ navigation }: Props) {
         <View style={styles.container}>
           <View style={styles.brandBlock}>
             <Text style={styles.icon}>🧘</Text>
-            <Text style={styles.title}>StretchFlow</Text>
-            <Text style={styles.subtitle}>Daily stretching made simple</Text>
+            <Text style={styles.title}>{t('common.appName')}</Text>
+            <Text style={styles.subtitle}>{t('login.tagline')}</Text>
           </View>
 
           <View style={styles.card}>
             <View style={styles.fieldGroup}>
-              <Text style={styles.label}>Email</Text>
+              <Text style={styles.label}>{t('login.emailLabel')}</Text>
               <TextInput
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardType="email-address"
                 onChangeText={setEmail}
-                placeholder="your@email.com"
+                placeholder={t('login.emailPlaceholder')}
                 placeholderTextColor={palette.textMuted}
                 style={styles.input}
                 textContentType="emailAddress"
@@ -53,7 +54,7 @@ export function LoginScreen({ navigation }: Props) {
             </View>
 
             <View style={styles.fieldGroup}>
-              <Text style={styles.label}>Password</Text>
+              <Text style={styles.label}>{t('login.passwordLabel')}</Text>
               <TextInput
                 onChangeText={setPassword}
                 placeholder="••••••••"
@@ -65,10 +66,10 @@ export function LoginScreen({ navigation }: Props) {
               />
             </View>
 
-            <AppButton label="Login" onPress={handleLogin} disabled={!canLogin} />
+            <AppButton label={t('login.loginButton')} onPress={handleLogin} disabled={!canLogin} />
 
             <Pressable style={styles.linkButton}>
-              <Text style={styles.linkText}>Create account</Text>
+              <Text style={styles.linkText}>{t('login.createAccount')}</Text>
             </Pressable>
           </View>
         </View>
