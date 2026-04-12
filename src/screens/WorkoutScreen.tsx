@@ -1,11 +1,11 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '../components/AppButton';
 import { useRoutine } from '../features/routine/RoutineContext';
-import { t } from '../i18n';
 import { RootStackParamList } from '../navigation/routes';
 import { usePalette, usePreferences } from '../state/PreferencesContext';
 import { Palette, shadows } from '../theme/palette';
@@ -16,6 +16,8 @@ type WorkoutState = 'stretching' | 'resting' | 'complete';
 type Props = NativeStackScreenProps<RootStackParamList, 'Workout'>;
 
 export function WorkoutScreen({ navigation }: Props) {
+  const { t: tWorkout } = useTranslation('workout');
+  const { t: tCommon } = useTranslation('common');
   const { stretches, isLoading } = useRoutine();
   const { theme } = usePreferences();
   const palette = usePalette();
@@ -118,7 +120,7 @@ export function WorkoutScreen({ navigation }: Props) {
   if (isLoading) {
     return (
       <SafeAreaView style={styles.centeredScreen}>
-        <Text style={styles.emptyTitle}>{t('common.loadingRoutine')}</Text>
+        <Text style={styles.emptyTitle}>{tCommon('loadingRoutine')}</Text>
       </SafeAreaView>
     );
   }
@@ -126,9 +128,9 @@ export function WorkoutScreen({ navigation }: Props) {
   if (!currentStretch || stretches.length === 0) {
     return (
       <SafeAreaView style={styles.centeredScreen}>
-        <Text style={styles.emptyTitle}>{t('workout.noStretches')}</Text>
+        <Text style={styles.emptyTitle}>{tWorkout('noStretches')}</Text>
         <View style={styles.emptyAction}>
-          <AppButton label={t('workout.goHome')} onPress={() => navigation.navigate('Home')} variant="secondary" />
+          <AppButton label={tWorkout('goHome')} onPress={() => navigation.navigate('Home')} variant="secondary" />
         </View>
       </SafeAreaView>
     );
@@ -139,10 +141,10 @@ export function WorkoutScreen({ navigation }: Props) {
       <SafeAreaView style={styles.completeScreen}>
         <View style={styles.completeCard}>
           <Text style={styles.completeIcon}>✓</Text>
-          <Text style={styles.completeTitle}>{t('workout.completeTitle')}</Text>
-          <Text style={styles.completeDescription}>{t('workout.completeDescription')}</Text>
+          <Text style={styles.completeTitle}>{tWorkout('completeTitle')}</Text>
+          <Text style={styles.completeDescription}>{tWorkout('completeDescription')}</Text>
           <View style={styles.completeAction}>
-            <AppButton label={t('workout.finish')} onPress={handleFinish} />
+            <AppButton label={tWorkout('finish')} onPress={handleFinish} />
           </View>
         </View>
       </SafeAreaView>
@@ -169,33 +171,33 @@ export function WorkoutScreen({ navigation }: Props) {
         <View style={styles.imageWrap}>
           <Image source={{ uri: currentStretch.image }} style={styles.image} />
           <View style={styles.modeBadge}>
-            <Text style={styles.modeBadgeText}>{state === 'stretching' ? t('workout.stretchMode') : t('workout.restMode')}</Text>
+            <Text style={styles.modeBadgeText}>{state === 'stretching' ? tWorkout('stretchMode') : tWorkout('restMode')}</Text>
           </View>
         </View>
 
         <View style={styles.body}>
           <Text style={styles.name}>{currentStretch.name}</Text>
           <Text style={styles.setLabel}>
-            {t('workout.setLabel', { current: currentSet, total: currentStretch.sets })}
+            {tWorkout('setLabel', { current: currentSet, total: currentStretch.sets })}
           </Text>
 
           <View style={styles.timerWrap}>
             <Text style={styles.timerValue}>{timeRemaining}</Text>
-            <Text style={styles.timerUnit}>{t('workout.timerUnit')}</Text>
+            <Text style={styles.timerUnit}>{tWorkout('timerUnit')}</Text>
           </View>
 
           <View style={styles.controls}>
             <Pressable onPress={() => setIsPaused((previousValue) => !previousValue)} style={styles.pauseButton}>
-              <Text style={styles.pauseButtonText}>{isPaused ? t('workout.play') : t('workout.pause')}</Text>
+              <Text style={styles.pauseButtonText}>{isPaused ? tWorkout('play') : tWorkout('pause')}</Text>
             </Pressable>
             <View style={styles.skipButtonWrap}>
-              <AppButton label={t('workout.skip')} onPress={handleSkip} variant="secondary" />
+              <AppButton label={tWorkout('skip')} onPress={handleSkip} variant="secondary" />
             </View>
           </View>
 
           {!isLastStretch && isLastSet ? (
             <View style={styles.nextUpWrap}>
-              <Text style={styles.nextUpLabel}>{t('workout.nextUp')}</Text>
+              <Text style={styles.nextUpLabel}>{tWorkout('nextUp')}</Text>
               <Text style={styles.nextUpName}>{stretches[currentStretchIndex + 1].name}</Text>
             </View>
           ) : null}

@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer, Theme } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import './src/i18n';
 import { RootNavigator } from './src/navigation/RootNavigator';
 import { AppProviders } from './src/state/AppProviders';
 import { usePalette, usePreferences } from './src/state/PreferencesContext';

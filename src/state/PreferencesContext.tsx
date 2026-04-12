@@ -1,6 +1,6 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
-import { setAppLocale } from '../i18n';
+import i18n from '../i18n';
 import { darkPalette, lightPalette, Palette } from '../theme/palette';
 import {
   Language,
@@ -38,7 +38,7 @@ export function PreferencesProvider({ children }: PropsWithChildren) {
       if (isMounted) {
         setThemeState(storedTheme);
         setLanguageState(storedLanguage);
-        setAppLocale(storedLanguage);
+        void i18n.changeLanguage(storedLanguage);
         setIsPreferencesLoading(false);
       }
     }
@@ -61,7 +61,7 @@ export function PreferencesProvider({ children }: PropsWithChildren) {
       },
       setLanguage: (nextLanguage) => {
         setLanguageState(nextLanguage);
-        setAppLocale(nextLanguage);
+        void i18n.changeLanguage(nextLanguage);
         void saveStoredLanguage(nextLanguage);
       },
     }),

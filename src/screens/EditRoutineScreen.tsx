@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -7,7 +8,6 @@ import { AppButton } from '../components/AppButton';
 import { StretchEditorModal } from '../features/routine/StretchEditorModal';
 import { useRoutine } from '../features/routine/RoutineContext';
 import { Stretch } from '../features/routine/types';
-import { t } from '../i18n';
 import { RootStackParamList } from '../navigation/routes';
 import { usePalette, usePreferences } from '../state/PreferencesContext';
 import { Palette, shadows } from '../theme/palette';
@@ -16,6 +16,8 @@ import { radius, spacing } from '../theme/spacing';
 type Props = NativeStackScreenProps<RootStackParamList, 'EditRoutine'>;
 
 export function EditRoutineScreen({ navigation }: Props) {
+  const { t: tRoutine } = useTranslation('routine');
+  const { t: tCommon } = useTranslation('common');
   const { stretches, isLoading, createStretch, updateStretch, removeStretch } = useRoutine();
   const { theme } = usePreferences();
   const palette = usePalette();
@@ -54,10 +56,10 @@ export function EditRoutineScreen({ navigation }: Props) {
   }
 
   function handleDelete(stretchId: string) {
-    Alert.alert(t('editRoutine.deleteConfirmTitle'), t('editRoutine.deleteConfirmMessage'), [
-      { text: t('common.cancel'), style: 'cancel' },
+    Alert.alert(tRoutine('edit.deleteConfirmTitle'), tRoutine('edit.deleteConfirmMessage'), [
+      { text: tCommon('cancel'), style: 'cancel' },
       {
-        text: t('common.delete'),
+        text: tCommon('delete'),
         style: 'destructive',
         onPress: () => removeStretch(stretchId),
       },
@@ -71,19 +73,19 @@ export function EditRoutineScreen({ navigation }: Props) {
           <Pressable onPress={() => navigation.navigate('Home')} style={styles.backButton}>
             <Text style={styles.backButtonText}>‹</Text>
           </Pressable>
-          <Text style={styles.title}>{t('editRoutine.title')}</Text>
+          <Text style={styles.title}>{tRoutine('edit.title')}</Text>
         </View>
 
-        <AppButton label={t('editRoutine.addNewStretch')} onPress={handleAddNew} />
+        <AppButton label={tRoutine('edit.addNewStretch')} onPress={handleAddNew} />
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
         {isLoading ? (
-          <Text style={styles.infoText}>{t('editRoutine.loadingStretches')}</Text>
+          <Text style={styles.infoText}>{tRoutine('edit.loadingStretches')}</Text>
         ) : stretches.length === 0 ? (
           <View style={styles.emptyState}>
-            <Text style={styles.emptyTitle}>{t('editRoutine.emptyTitle')}</Text>
-            <Text style={styles.emptyDescription}>{t('editRoutine.emptyDescription')}</Text>
+            <Text style={styles.emptyTitle}>{tRoutine('edit.emptyTitle')}</Text>
+            <Text style={styles.emptyDescription}>{tRoutine('edit.emptyDescription')}</Text>
           </View>
         ) : (
           stretches.map((stretch, index) => (
@@ -96,7 +98,7 @@ export function EditRoutineScreen({ navigation }: Props) {
                 <Text style={styles.index}>#{index + 1}</Text>
                 <Text style={styles.cardTitle}>{stretch.name}</Text>
                 <Text style={styles.cardMeta}>
-                  {t('editRoutine.cardMeta', {
+                  {tRoutine('edit.cardMeta', {
                     duration: stretch.duration,
                     sets: stretch.sets,
                     restTime: stretch.restTime,
@@ -105,10 +107,10 @@ export function EditRoutineScreen({ navigation }: Props) {
               </View>
               <View style={styles.actions}>
                 <Pressable onPress={() => handleEdit(stretch)} style={styles.actionButton}>
-                  <Text style={styles.editAction}>{t('editRoutine.editAction')}</Text>
+                  <Text style={styles.editAction}>{tRoutine('edit.editAction')}</Text>
                 </Pressable>
                 <Pressable onPress={() => handleDelete(stretch.id)} style={styles.actionButton}>
-                  <Text style={styles.deleteAction}>{t('editRoutine.deleteAction')}</Text>
+                  <Text style={styles.deleteAction}>{tRoutine('edit.deleteAction')}</Text>
                 </Pressable>
               </View>
             </View>

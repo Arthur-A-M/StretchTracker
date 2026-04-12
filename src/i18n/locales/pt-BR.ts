@@ -9,7 +9,7 @@ export const ptBR = {
     loadingRoutine: 'Carregando rotina...',
   },
 
-  login: {
+  auth: {
     tagline: 'Alongamento diário simplificado',
     emailLabel: 'E-mail',
     emailPlaceholder: 'seu@email.com',
@@ -20,14 +20,14 @@ export const ptBR = {
 
   home: {
     title: 'Rotina de hoje',
-    routineSummary: '%{count} alongamentos • %{duration}',
+    routineSummary: '{{count}} alongamentos • {{duration}}',
     startRoutine: 'Iniciar Rotina',
     emptyTitle: 'Nenhum alongamento na sua rotina',
     emptyDescription: 'Adicione seu primeiro alongamento no editor antes de iniciar a sessão.',
     emptyAction: 'Adicionar Primeiro Alongamento',
-    metricDuration: '⏱ %{value}s',
-    metricSets: '🔁 %{value} séries',
-    metricRest: 'Descanso: %{value}s',
+    metricDuration: '⏱ {{value}}s',
+    metricSets: '🔁 {{value}} séries',
+    metricRest: 'Descanso: {{value}}s',
   },
 
   workout: {
@@ -38,7 +38,7 @@ export const ptBR = {
     finish: 'Concluir',
     stretchMode: 'Alongamento',
     restMode: 'Descanso',
-    setLabel: 'Série %{current} de %{total}',
+    setLabel: 'Série {{current}} de {{total}}',
     timerUnit: 'segundos',
     play: 'Retomar',
     pause: 'Pausar',
@@ -46,39 +46,41 @@ export const ptBR = {
     nextUp: 'A seguir',
   },
 
-  editRoutine: {
-    title: 'Editar Rotina',
-    addNewStretch: 'Adicionar Alongamento',
-    loadingStretches: 'Carregando alongamentos...',
-    emptyTitle: 'Nenhum alongamento ainda',
-    emptyDescription: 'Toque em "Adicionar Alongamento" para começar.',
-    cardMeta: '%{duration}s • %{sets} séries • Descanso: %{restTime}s',
-    editAction: 'Editar',
-    deleteAction: 'Excluir',
-    deleteConfirmTitle: 'Excluir alongamento?',
-    deleteConfirmMessage: 'Esta ação não pode ser desfeita.',
+  routine: {
+    edit: {
+      title: 'Editar Rotina',
+      addNewStretch: 'Adicionar Alongamento',
+      loadingStretches: 'Carregando alongamentos...',
+      emptyTitle: 'Nenhum alongamento ainda',
+      emptyDescription: 'Toque em "Adicionar Alongamento" para começar.',
+      cardMeta: '{{duration}}s • {{sets}} séries • Descanso: {{restTime}}s',
+      editAction: 'Editar',
+      deleteAction: 'Excluir',
+      deleteConfirmTitle: 'Excluir alongamento?',
+      deleteConfirmMessage: 'Esta ação não pode ser desfeita.',
+    },
+
+    modal: {
+      titleEdit: 'Editar Alongamento',
+      titleAdd: 'Adicionar Alongamento',
+      nameLabel: 'Nome do Alongamento',
+      namePlaceholder: 'ex: Rolamento de Pescoço',
+      imageLabel: 'Imagem',
+      changeImage: 'Alterar Imagem',
+      removeImage: 'Remover',
+      uploadPrompt: 'Toque para enviar imagem',
+      durationLabel: 'Duração (segundos)',
+      durationSuffix: 'seg',
+      setsLabel: 'Número de Séries',
+      setsSuffix: 'séries',
+      restTimeLabel: 'Descanso Entre Séries (segundos)',
+      restTimeSuffix: 'seg',
+      permissionTitle: 'Permissão necessária',
+      permissionMessage: 'Permita o acesso à biblioteca de fotos para escolher uma imagem de alongamento.',
+    },
   },
 
-  stretchEditor: {
-    titleEdit: 'Editar Alongamento',
-    titleAdd: 'Adicionar Alongamento',
-    nameLabel: 'Nome do Alongamento',
-    namePlaceholder: 'ex: Rolamento de Pescoço',
-    imageLabel: 'Imagem',
-    changeImage: 'Alterar Imagem',
-    removeImage: 'Remover',
-    uploadPrompt: 'Toque para enviar imagem',
-    durationLabel: 'Duração (segundos)',
-    durationSuffix: 'seg',
-    setsLabel: 'Número de Séries',
-    setsSuffix: 'séries',
-    restTimeLabel: 'Descanso Entre Séries (segundos)',
-    restTimeSuffix: 'seg',
-    permissionTitle: 'Permissão necessária',
-    permissionMessage: 'Permita o acesso à biblioteca de fotos para escolher uma imagem de alongamento.',
-  },
-
-  configuration: {
+  settings: {
     title: 'Configurações',
     themeSection: 'Aparência',
     lightMode: 'Claro',

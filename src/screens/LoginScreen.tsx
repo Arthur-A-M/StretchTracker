@@ -1,10 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '../components/AppButton';
-import { t } from '../i18n';
 import { RootStackParamList } from '../navigation/routes';
 import { usePalette } from '../state/PreferencesContext';
 import { Palette, shadows } from '../theme/palette';
@@ -13,6 +13,8 @@ import { radius, spacing } from '../theme/spacing';
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 export function LoginScreen({ navigation }: Props) {
+  const { t: tAuth } = useTranslation('auth');
+  const { t: tCommon } = useTranslation('common');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const canLogin = email.trim().length > 0 && password.trim().length > 0;
@@ -36,19 +38,19 @@ export function LoginScreen({ navigation }: Props) {
         <View style={styles.container}>
           <View style={styles.brandBlock}>
             <Text style={styles.icon}>🧘</Text>
-            <Text style={styles.title}>{t('common.appName')}</Text>
-            <Text style={styles.subtitle}>{t('login.tagline')}</Text>
+            <Text style={styles.title}>{tCommon('appName')}</Text>
+            <Text style={styles.subtitle}>{tAuth('tagline')}</Text>
           </View>
 
           <View style={styles.card}>
             <View style={styles.fieldGroup}>
-              <Text style={styles.label}>{t('login.emailLabel')}</Text>
+              <Text style={styles.label}>{tAuth('emailLabel')}</Text>
               <TextInput
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardType="email-address"
                 onChangeText={setEmail}
-                placeholder={t('login.emailPlaceholder')}
+                placeholder={tAuth('emailPlaceholder')}
                 placeholderTextColor={palette.textMuted}
                 style={styles.input}
                 textContentType="emailAddress"
@@ -57,7 +59,7 @@ export function LoginScreen({ navigation }: Props) {
             </View>
 
             <View style={styles.fieldGroup}>
-              <Text style={styles.label}>{t('login.passwordLabel')}</Text>
+              <Text style={styles.label}>{tAuth('passwordLabel')}</Text>
               <TextInput
                 onChangeText={setPassword}
                 placeholder="••••••••"
@@ -69,10 +71,10 @@ export function LoginScreen({ navigation }: Props) {
               />
             </View>
 
-            <AppButton label={t('login.loginButton')} onPress={handleLogin} disabled={!canLogin} />
+            <AppButton label={tAuth('loginButton')} onPress={handleLogin} disabled={!canLogin} />
 
             <Pressable style={styles.linkButton}>
-              <Text style={styles.linkText}>{t('login.createAccount')}</Text>
+              <Text style={styles.linkText}>{tAuth('createAccount')}</Text>
             </Pressable>
           </View>
         </View>

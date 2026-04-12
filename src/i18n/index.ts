@@ -1,24 +1,33 @@
-import { I18n } from 'i18n-js';
+import i18n from 'i18next';
 import { getLocales } from 'expo-localization';
+import { initReactI18next } from 'react-i18next';
 
 import { en } from './locales/en';
 import { ptBR } from './locales/pt-BR';
 
-const i18n = new I18n({
+export const resources = {
   en,
   'pt-BR': ptBR,
-});
+} as const;
 
-i18n.enableFallback = true;
-i18n.defaultLocale = 'en';
+export type AppLanguage = keyof typeof resources;
 
 const languageTag = getLocales()[0]?.languageTag;
-i18n.locale = languageTag?.startsWith('pt') ? 'pt-BR' : 'en';
+const initialLanguage: AppLanguage = languageTag?.startsWith('pt') ? 'pt-BR' : 'en';
 
-export function t(scope: string, options?: Record<string, unknown>) {
-  return i18n.t(scope, options);
-}
+void i18n
+  .use(initReactI18next)
+  .init({
+    compatibilityJSON: 'v4',
+    resources,
+    lng: initialLanguage,
+    fallbackLng: 'en',
+    defaultNS: 'common',
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
-export function setAppLocale(locale: 'en' | 'pt-BR') {
-  i18n.locale = locale;
-}
+export const supportedLanguages = ['en', 'pt-BR'] as const;
+
+export default i18n;

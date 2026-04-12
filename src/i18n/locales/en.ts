@@ -9,7 +9,7 @@ export const en = {
     loadingRoutine: 'Loading routine...',
   },
 
-  login: {
+  auth: {
     tagline: 'Daily stretching made simple',
     emailLabel: 'Email',
     emailPlaceholder: 'your@email.com',
@@ -20,14 +20,14 @@ export const en = {
 
   home: {
     title: "Today's Routine",
-    routineSummary: '%{count} stretches • %{duration}',
+    routineSummary: '{{count}} stretches • {{duration}}',
     startRoutine: 'Start Routine',
     emptyTitle: 'No stretches in your routine',
     emptyDescription: 'Add your first stretch in the editor before starting the session.',
     emptyAction: 'Add Your First Stretch',
-    metricDuration: '⏱ %{value}s',
-    metricSets: '🔁 %{value} sets',
-    metricRest: 'Rest: %{value}s',
+    metricDuration: '⏱ {{value}}s',
+    metricSets: '🔁 {{value}} sets',
+    metricRest: 'Rest: {{value}}s',
   },
 
   workout: {
@@ -38,7 +38,7 @@ export const en = {
     finish: 'Finish',
     stretchMode: 'Stretch',
     restMode: 'Rest',
-    setLabel: 'Set %{current} of %{total}',
+    setLabel: 'Set {{current}} of {{total}}',
     timerUnit: 'seconds',
     play: 'Play',
     pause: 'Pause',
@@ -46,39 +46,40 @@ export const en = {
     nextUp: 'Next up',
   },
 
-  editRoutine: {
-    title: 'Edit Routine',
-    addNewStretch: 'Add New Stretch',
-    loadingStretches: 'Loading stretches...',
-    emptyTitle: 'No stretches yet',
-    emptyDescription: 'Tap "Add New Stretch" to get started.',
-    cardMeta: '%{duration}s • %{sets} sets • Rest: %{restTime}s',
-    editAction: 'Edit',
-    deleteAction: 'Delete',
-    deleteConfirmTitle: 'Delete stretch?',
-    deleteConfirmMessage: 'This action cannot be undone.',
+  routine: {
+    edit: {
+      title: 'Edit Routine',
+      addNewStretch: 'Add New Stretch',
+      loadingStretches: 'Loading stretches...',
+      emptyTitle: 'No stretches yet',
+      emptyDescription: 'Tap "Add New Stretch" to get started.',
+      cardMeta: '{{duration}}s • {{sets}} sets • Rest: {{restTime}}s',
+      editAction: 'Edit',
+      deleteAction: 'Delete',
+      deleteConfirmTitle: 'Delete stretch?',
+      deleteConfirmMessage: 'This action cannot be undone.',
+    },
+    modal: {
+      titleEdit: 'Edit Stretch',
+      titleAdd: 'Add New Stretch',
+      nameLabel: 'Stretch Name',
+      namePlaceholder: 'e.g., Neck Rolls',
+      imageLabel: 'Image',
+      changeImage: 'Change Image',
+      removeImage: 'Remove',
+      uploadPrompt: 'Tap to upload image',
+      durationLabel: 'Duration (seconds)',
+      durationSuffix: 'sec',
+      setsLabel: 'Number of Sets',
+      setsSuffix: 'sets',
+      restTimeLabel: 'Rest Time Between Sets (seconds)',
+      restTimeSuffix: 'sec',
+      permissionTitle: 'Permission required',
+      permissionMessage: 'Allow photo library access to choose a stretch image.',
+    },
   },
 
-  stretchEditor: {
-    titleEdit: 'Edit Stretch',
-    titleAdd: 'Add New Stretch',
-    nameLabel: 'Stretch Name',
-    namePlaceholder: 'e.g., Neck Rolls',
-    imageLabel: 'Image',
-    changeImage: 'Change Image',
-    removeImage: 'Remove',
-    uploadPrompt: 'Tap to upload image',
-    durationLabel: 'Duration (seconds)',
-    durationSuffix: 'sec',
-    setsLabel: 'Number of Sets',
-    setsSuffix: 'sets',
-    restTimeLabel: 'Rest Time Between Sets (seconds)',
-    restTimeSuffix: 'sec',
-    permissionTitle: 'Permission required',
-    permissionMessage: 'Allow photo library access to choose a stretch image.',
-  },
-
-  configuration: {
+  settings: {
     title: 'Configuration',
     themeSection: 'Appearance',
     lightMode: 'Light',

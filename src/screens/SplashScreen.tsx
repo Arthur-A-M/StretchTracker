@@ -1,9 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { t } from '../i18n';
 import { RootStackParamList } from '../navigation/routes';
 import { usePalette } from '../state/PreferencesContext';
 import { Palette } from '../theme/palette';
@@ -12,6 +12,7 @@ import { spacing } from '../theme/spacing';
 type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 
 export function SplashScreen({ navigation }: Props) {
+  const { t } = useTranslation('common');
   const palette = usePalette();
   const styles = makeStyles(palette);
 
@@ -27,7 +28,7 @@ export function SplashScreen({ navigation }: Props) {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <Text style={styles.icon}>🧘</Text>
-        <Text style={styles.title}>{t('common.appName')}</Text>
+        <Text style={styles.title}>{t('appName')}</Text>
         <ActivityIndicator size="large" color={palette.teal} />
       </View>
     </SafeAreaView>

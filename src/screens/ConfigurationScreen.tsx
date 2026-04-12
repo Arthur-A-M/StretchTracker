@@ -1,9 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '../components/AppButton';
-import { t } from '../i18n';
 import { RootStackParamList } from '../navigation/routes';
 import { usePalette, usePreferences } from '../state/PreferencesContext';
 import { Palette, shadows } from '../theme/palette';
@@ -12,6 +12,7 @@ import { radius, spacing } from '../theme/spacing';
 type Props = NativeStackScreenProps<RootStackParamList, 'Configuration'>;
 
 export function ConfigurationScreen({ navigation }: Props) {
+  const { t } = useTranslation('settings');
   const { theme, language, setTheme, setLanguage } = usePreferences();
   const palette = usePalette();
   const styles = makeStyles(palette);
@@ -23,24 +24,24 @@ export function ConfigurationScreen({ navigation }: Props) {
           <Pressable onPress={() => navigation.navigate('Home')} style={styles.backButton}>
             <Text style={styles.backButtonText}>‹</Text>
           </Pressable>
-          <Text style={styles.title}>{t('configuration.title')}</Text>
+          <Text style={styles.title}>{t('title')}</Text>
         </View>
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.card}>
-          <Text style={styles.sectionLabel}>{t('configuration.themeSection')}</Text>
+          <Text style={styles.sectionLabel}>{t('themeSection')}</Text>
           <View style={styles.optionRow}>
             <View style={styles.optionButton}>
               <AppButton
-                label={t('configuration.lightMode')}
+                label={t('lightMode')}
                 onPress={() => setTheme('light')}
                 variant={theme === 'light' ? 'primary' : 'secondary'}
               />
             </View>
             <View style={styles.optionButton}>
               <AppButton
-                label={t('configuration.darkMode')}
+                label={t('darkMode')}
                 onPress={() => setTheme('dark')}
                 variant={theme === 'dark' ? 'primary' : 'secondary'}
               />
@@ -49,18 +50,18 @@ export function ConfigurationScreen({ navigation }: Props) {
         </View>
 
         <View style={styles.card}>
-          <Text style={styles.sectionLabel}>{t('configuration.languageSection')}</Text>
+          <Text style={styles.sectionLabel}>{t('languageSection')}</Text>
           <View style={styles.optionRow}>
             <View style={styles.optionButton}>
               <AppButton
-                label={t('configuration.english')}
+                label={t('english')}
                 onPress={() => setLanguage('en')}
                 variant={language === 'en' ? 'primary' : 'secondary'}
               />
             </View>
             <View style={styles.optionButton}>
               <AppButton
-                label={t('configuration.portuguese')}
+                label={t('portuguese')}
                 onPress={() => setLanguage('pt-BR')}
                 variant={language === 'pt-BR' ? 'primary' : 'secondary'}
               />

@@ -1,5 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Image,
@@ -13,7 +14,6 @@ import {
 } from 'react-native';
 
 import { AppButton } from '../../components/AppButton';
-import { t } from '../../i18n';
 import { usePalette, usePreferences } from '../../state/PreferencesContext';
 import { Palette, shadows } from '../../theme/palette';
 import { radius, spacing } from '../../theme/spacing';
@@ -29,6 +29,8 @@ type StretchEditorModalProps = {
 };
 
 export function StretchEditorModal({ visible, stretch, onClose, onSave }: StretchEditorModalProps) {
+  const { t: tRoutine } = useTranslation('routine');
+  const { t: tCommon } = useTranslation('common');
   const { theme } = usePreferences();
   const palette = usePalette();
   const isDark = theme === 'dark';
@@ -64,7 +66,7 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (!permission.granted) {
-      Alert.alert(t('stretchEditor.permissionTitle'), t('stretchEditor.permissionMessage'));
+      Alert.alert(tRoutine('modal.permissionTitle'), tRoutine('modal.permissionMessage'));
       return;
     }
 
@@ -120,18 +122,18 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
       <View style={styles.overlay}>
         <View style={styles.sheet}>
           <View style={styles.header}>
-            <Text style={styles.title}>{stretch ? t('stretchEditor.titleEdit') : t('stretchEditor.titleAdd')}</Text>
+            <Text style={styles.title}>{stretch ? tRoutine('modal.titleEdit') : tRoutine('modal.titleAdd')}</Text>
             <Pressable onPress={onClose} style={styles.closeButton}>
-              <Text style={styles.closeButtonText}>{t('common.close')}</Text>
+              <Text style={styles.closeButtonText}>{tCommon('close')}</Text>
             </Pressable>
           </View>
 
           <ScrollView contentContainerStyle={styles.content}>
             <View style={styles.fieldGroup}>
-              <Text style={styles.label}>{t('stretchEditor.nameLabel')}</Text>
+              <Text style={styles.label}>{tRoutine('modal.nameLabel')}</Text>
               <TextInput
                 onChangeText={setName}
-                placeholder={t('stretchEditor.namePlaceholder')}
+                placeholder={tRoutine('modal.namePlaceholder')}
                 placeholderTextColor={palette.textMuted}
                 style={styles.input}
                 value={name}
@@ -139,28 +141,28 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
             </View>
 
             <View style={styles.fieldGroup}>
-              <Text style={styles.label}>{t('stretchEditor.imageLabel')}</Text>
+              <Text style={styles.label}>{tRoutine('modal.imageLabel')}</Text>
               <View style={styles.imagePickerBox}>
                 {image ? (
                   <>
                     <Image source={{ uri: image }} style={styles.previewImage} />
                     <View style={styles.imageActions}>
-                      <AppButton label={t('stretchEditor.changeImage')} onPress={() => void handlePickImage()} variant="secondary" />
-                      <AppButton label={t('stretchEditor.removeImage')} onPress={() => setImage('')} variant="secondary" />
+                      <AppButton label={tRoutine('modal.changeImage')} onPress={() => void handlePickImage()} variant="secondary" />
+                      <AppButton label={tRoutine('modal.removeImage')} onPress={() => setImage('')} variant="secondary" />
                     </View>
                   </>
                 ) : (
                   <Pressable onPress={() => void handlePickImage()} style={styles.imagePlaceholder}>
                     <Text style={styles.imagePlaceholderIcon}>⬆</Text>
-                    <Text style={styles.imagePlaceholderText}>{t('stretchEditor.uploadPrompt')}</Text>
+                    <Text style={styles.imagePlaceholderText}>{tRoutine('modal.uploadPrompt')}</Text>
                   </Pressable>
                 )}
               </View>
             </View>
 
             <NumberField
-              label={t('stretchEditor.durationLabel')}
-              suffix={t('stretchEditor.durationSuffix')}
+              label={tRoutine('modal.durationLabel')}
+              suffix={tRoutine('modal.durationSuffix')}
               value={duration}
               onDecrement={() => adjustValue(duration, -5, 10, 300, setDuration)}
               onIncrement={() => adjustValue(duration, 5, 10, 300, setDuration)}
@@ -168,8 +170,8 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
             />
 
             <NumberField
-              label={t('stretchEditor.setsLabel')}
-              suffix={t('stretchEditor.setsSuffix')}
+              label={tRoutine('modal.setsLabel')}
+              suffix={tRoutine('modal.setsSuffix')}
               value={sets}
               onDecrement={() => adjustValue(sets, -1, 1, 10, setSets)}
               onIncrement={() => adjustValue(sets, 1, 1, 10, setSets)}
@@ -177,8 +179,8 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
             />
 
             <NumberField
-              label={t('stretchEditor.restTimeLabel')}
-              suffix={t('stretchEditor.restTimeSuffix')}
+              label={tRoutine('modal.restTimeLabel')}
+              suffix={tRoutine('modal.restTimeSuffix')}
               value={restTime}
               onDecrement={() => adjustValue(restTime, -5, 0, 120, setRestTime)}
               onIncrement={() => adjustValue(restTime, 5, 0, 120, setRestTime)}
@@ -187,10 +189,10 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
 
             <View style={styles.footerActions}>
               <View style={styles.footerButton}>
-                <AppButton label={t('common.cancel')} onPress={onClose} variant="secondary" />
+                <AppButton label={tCommon('cancel')} onPress={onClose} variant="secondary" />
               </View>
               <View style={styles.footerButton}>
-                <AppButton label={t('common.save')} onPress={handleSubmit} disabled={!name.trim() || !image} />
+                <AppButton label={tCommon('save')} onPress={handleSubmit} disabled={!name.trim() || !image} />
               </View>
             </View>
           </ScrollView>

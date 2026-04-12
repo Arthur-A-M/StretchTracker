@@ -1,10 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '../components/AppButton';
 import { useRoutine } from '../features/routine/RoutineContext';
-import { t } from '../i18n';
 import { RootStackParamList } from '../navigation/routes';
 import { usePalette, usePreferences } from '../state/PreferencesContext';
 import { Palette, shadows } from '../theme/palette';
@@ -13,6 +13,9 @@ import { radius, spacing } from '../theme/spacing';
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export function HomeScreen({ navigation }: Props) {
+  const { t: tHome } = useTranslation('home');
+  const { t: tCommon } = useTranslation('common');
+  const { t: tSettings } = useTranslation('settings');
   const { isLoading, stretches } = useRoutine();
   const { theme } = usePreferences();
   const palette = usePalette();
@@ -40,11 +43,11 @@ export function HomeScreen({ navigation }: Props) {
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.headerTitle}>{t('home.title')}</Text>
+          <Text style={styles.headerTitle}>{tHome('title')}</Text>
           <Text style={styles.headerMeta}>
             {isLoading
-              ? t('common.loadingRoutine')
-              : t('home.routineSummary', {
+              ? tCommon('loadingRoutine')
+              : tHome('routineSummary', {
                   count: stretches.length,
                   duration: formatTime(totalDuration),
                 })}
@@ -53,7 +56,7 @@ export function HomeScreen({ navigation }: Props) {
         <View style={styles.headerRight}>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={t('configuration.title')}
+            accessibilityLabel={tSettings('title')}
             onPress={() => navigation.navigate('Configuration')}
             style={styles.settingsButton}
           >
@@ -66,14 +69,14 @@ export function HomeScreen({ navigation }: Props) {
       <View style={styles.headerActions}>
         <View style={styles.primaryAction}>
           <AppButton
-            label={t('home.startRoutine')}
+            label={tHome('startRoutine')}
             onPress={() => navigation.navigate('Workout')}
             disabled={isLoading || stretches.length === 0}
           />
         </View>
         <View style={styles.secondaryAction}>
           <AppButton
-            label={t('common.edit')}
+            label={tCommon('edit')}
             onPress={() => navigation.navigate('EditRoutine')}
             variant="secondary"
           />
@@ -83,12 +86,12 @@ export function HomeScreen({ navigation }: Props) {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {!isLoading && stretches.length === 0 ? (
           <View style={styles.emptyState}>
-            <Text style={styles.emptyTitle}>{t('home.emptyTitle')}</Text>
+            <Text style={styles.emptyTitle}>{tHome('emptyTitle')}</Text>
             <Text style={styles.emptyDescription}>
-              {t('home.emptyDescription')}
+              {tHome('emptyDescription')}
             </Text>
             <AppButton
-              label={t('home.emptyAction')}
+              label={tHome('emptyAction')}
               onPress={() => navigation.navigate('EditRoutine')}
               variant="secondary"
             />
@@ -105,9 +108,9 @@ export function HomeScreen({ navigation }: Props) {
                   </View>
                 </View>
                 <View style={styles.metricsRow}>
-                  <Text style={styles.metricText}>{t('home.metricDuration', { value: stretch.duration })}</Text>
-                  <Text style={styles.metricText}>{t('home.metricSets', { value: stretch.sets })}</Text>
-                  <Text style={styles.metricSubtle}>{t('home.metricRest', { value: stretch.restTime })}</Text>
+                  <Text style={styles.metricText}>{tHome('metricDuration', { value: stretch.duration })}</Text>
+                  <Text style={styles.metricText}>{tHome('metricSets', { value: stretch.sets })}</Text>
+                  <Text style={styles.metricSubtle}>{tHome('metricRest', { value: stretch.restTime })}</Text>
                 </View>
               </View>
             </View>
