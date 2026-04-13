@@ -48,7 +48,7 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
 
     if (stretch) {
       setName(stretch.name);
-      setImage(stretch.image);
+      setImage(stretch.image ?? '');
       setDuration(stretch.duration);
       setSets(stretch.sets);
       setRestTime(stretch.restTime);
@@ -101,14 +101,14 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
   }
 
   function handleSubmit() {
-    if (!name.trim() || !image) {
+    if (!name.trim()) {
       return;
     }
 
     onSave(
       {
         name: name.trim(),
-        image,
+        image: image.trim() || undefined,
         duration,
         sets,
         restTime,
@@ -192,7 +192,7 @@ export function StretchEditorModal({ visible, stretch, onClose, onSave }: Stretc
                 <AppButton label={tCommon('cancel')} onPress={onClose} variant="secondary" />
               </View>
               <View style={styles.footerButton}>
-                <AppButton label={tCommon('save')} onPress={handleSubmit} disabled={!name.trim() || !image} />
+                <AppButton label={tCommon('save')} onPress={handleSubmit} disabled={!name.trim()} />
               </View>
             </View>
           </ScrollView>

@@ -93,7 +93,13 @@ export function EditRoutineScreen({ navigation }: Props) {
               <View style={styles.dragHandle}>
                 <Text style={styles.dragHandleText}>⋮⋮</Text>
               </View>
-              <Image source={{ uri: stretch.image }} style={styles.cardImage} />
+              {stretch.image ? (
+                <Image source={{ uri: stretch.image }} style={styles.cardImage} />
+              ) : (
+                <View style={styles.cardImagePlaceholder}>
+                  <Text style={styles.cardImagePlaceholderIcon}>🧘</Text>
+                </View>
+              )}
               <View style={styles.cardContent}>
                 <Text style={styles.index}>#{index + 1}</Text>
                 <Text style={styles.cardTitle}>{stretch.name}</Text>
@@ -211,6 +217,17 @@ function makeStyles(palette: Palette, isDark: boolean) {
     width: 80,
     height: 80,
     backgroundColor: palette.surfaceMuted,
+  },
+  cardImagePlaceholder: {
+    width: 80,
+    height: 80,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: palette.surfaceMuted,
+  },
+  cardImagePlaceholderIcon: {
+    fontSize: 24,
+    color: palette.textMuted,
   },
   cardContent: {
     flex: 1,

@@ -99,7 +99,13 @@ export function HomeScreen({ navigation }: Props) {
         ) : (
           stretches.map((stretch, index) => (
             <View key={stretch.id} style={styles.card}>
-              <Image source={{ uri: stretch.image }} style={styles.cardImage} />
+              {stretch.image ? (
+                <Image source={{ uri: stretch.image }} style={styles.cardImage} />
+              ) : (
+                <View style={styles.cardImagePlaceholder}>
+                  <Text style={styles.cardImagePlaceholderIcon}>🧘</Text>
+                </View>
+              )}
               <View style={styles.cardBody}>
                 <View style={styles.cardHeader}>
                   <View>
@@ -218,6 +224,17 @@ function makeStyles(palette: Palette, isDark: boolean) {
       width: 96,
       height: 96,
       backgroundColor: palette.surfaceMuted,
+    },
+    cardImagePlaceholder: {
+      width: 96,
+      height: 96,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: palette.surfaceMuted,
+    },
+    cardImagePlaceholderIcon: {
+      fontSize: 28,
+      color: palette.textMuted,
     },
     cardBody: {
       flex: 1,

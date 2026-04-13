@@ -169,7 +169,13 @@ export function WorkoutScreen({ navigation }: Props) {
 
       <View style={styles.mainContent}>
         <View style={styles.imageWrap}>
-          <Image source={{ uri: currentStretch.image }} style={styles.image} />
+          {currentStretch.image ? (
+            <Image source={{ uri: currentStretch.image }} style={styles.image} />
+          ) : (
+            <View style={styles.imagePlaceholder}>
+              <Text style={styles.imagePlaceholderIcon}>🧘</Text>
+            </View>
+          )}
           <View style={styles.modeBadge}>
             <Text style={styles.modeBadgeText}>{state === 'stretching' ? tWorkout('stretchMode') : tWorkout('restMode')}</Text>
           </View>
@@ -318,6 +324,17 @@ function makeStyles(palette: Palette, isDark: boolean) {
   image: {
     width: '100%',
     height: '100%',
+  },
+  imagePlaceholder: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: palette.surfaceMuted,
+  },
+  imagePlaceholderIcon: {
+    fontSize: 40,
+    color: palette.textMuted,
   },
   modeBadge: {
     position: 'absolute',
