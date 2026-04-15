@@ -12,12 +12,17 @@ import { radius, spacing } from '../theme/spacing';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
+const EMAIL_FORMAT_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export function LoginScreen({ navigation }: Props) {
   const { t: tAuth } = useTranslation('auth');
   const { t: tCommon } = useTranslation('common');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const canLogin = email.trim().length > 0 && password.trim().length > 0;
+  const trimmedEmail = email.trim();
+  const isEmailValid = EMAIL_FORMAT_REGEX.test(trimmedEmail);
+  const showEmailError = trimmedEmail.length > 0 && !isEmailValid;
+  const canLogin = isEmailValid && password.trim().length > 0;
   const palette = usePalette();
   const styles = makeStyles(palette);
 
@@ -52,10 +57,11 @@ export function LoginScreen({ navigation }: Props) {
                 onChangeText={setEmail}
                 placeholder={tAuth('emailPlaceholder')}
                 placeholderTextColor={palette.textMuted}
-                style={styles.input}
+                style={[styles.input, showEmailError && styles.inputError]}
                 textContentType="emailAddress"
                 value={email}
               />
+              {showEmailError ? <Text style={styles.errorText}>{tAuth('invalidEmail')}</Text> : null}
             </View>
 
             <View style={styles.fieldGroup}>
@@ -142,6 +148,13 @@ function makeStyles(palette: Palette) {
       paddingHorizontal: spacing.md,
       color: palette.text,
       fontSize: 16,
+    },
+    inputError: {
+      borderColor: palette.danger,
+    },
+    errorText: {
+      color: palette.danger,
+      fontSize: 13,
     },
     linkButton: {
       alignSelf: 'center',

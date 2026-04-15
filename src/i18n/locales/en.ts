@@ -13,6 +13,7 @@ export const en = {
     tagline: 'Daily stretching made simple',
     emailLabel: 'Email',
     emailPlaceholder: 'your@email.com',
+    invalidEmail: 'Enter a valid email address.',
     passwordLabel: 'Password',
     loginButton: 'Login',
     createAccount: 'Create account',

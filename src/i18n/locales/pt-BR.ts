@@ -13,6 +13,7 @@ export const ptBR = {
     tagline: 'Alongamento diário simplificado',
     emailLabel: 'E-mail',
     emailPlaceholder: 'seu@email.com',
+    invalidEmail: 'Digite um endereço de e-mail válido.',
     passwordLabel: 'Senha',
     loginButton: 'Entrar',
     createAccount: 'Criar conta',
