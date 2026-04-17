@@ -1,8 +1,8 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
-import { defaultStretches } from './defaults';
-import { generateStretchId, getStoredStretches, saveStoredStretches } from './storage';
-import { Stretch } from './types';
+import { defaultStretches } from '../defaults';
+import { generateStretchId, getStoredStretches, saveStoredStretches } from '../storage';
+import { Stretch } from '../types';
 
 type StretchDraft = Omit<Stretch, 'id'>;
 

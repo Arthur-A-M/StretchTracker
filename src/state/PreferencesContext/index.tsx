@@ -1,7 +1,7 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
-import i18n from '../i18n';
-import { darkPalette, lightPalette, Palette } from '../theme/palette';
+import i18n from '../../i18n';
+import { darkPalette, lightPalette, Palette } from '../../theme/palette';
 import {
   Language,
   Theme,
@@ -9,7 +9,7 @@ import {
   getStoredTheme,
   saveStoredLanguage,
   saveStoredTheme,
-} from './preferencesStorage';
+} from '../preferencesStorage';
 
 type PreferencesContextValue = {
   theme: Theme;

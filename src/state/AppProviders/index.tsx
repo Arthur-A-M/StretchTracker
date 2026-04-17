@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 
-import { RoutineProvider } from '../features/routine/RoutineContext';
-import { PreferencesProvider } from './PreferencesContext';
+import { RoutineProvider } from '../../features/routine/RoutineContext';
+import { PreferencesProvider } from '../PreferencesContext';
 
 export function AppProviders({ children }: PropsWithChildren) {
   return (

@@ -1,13 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { ConfigurationScreen } from '../screens/ConfigurationScreen';
-import { EditRoutineScreen } from '../screens/EditRoutineScreen';
-import { HomeScreen } from '../screens/HomeScreen';
-import { LoginScreen } from '../screens/LoginScreen';
-import { SplashScreen } from '../screens/SplashScreen';
-import { WorkoutScreen } from '../screens/WorkoutScreen';
-import { usePalette } from '../state/PreferencesContext';
-import { RootStackParamList } from './routes';
+import { ConfigurationScreen } from '../../screens/ConfigurationScreen';
+import { EditRoutineScreen } from '../../screens/EditRoutineScreen';
+import { HomeScreen } from '../../screens/HomeScreen';
+import { LoginScreen } from '../../screens/LoginScreen';
+import { SplashScreen } from '../../screens/SplashScreen';
+import { WorkoutScreen } from '../../screens/WorkoutScreen';
+import { usePalette } from '../../state/PreferencesContext';
+import { RootStackParamList } from '../routes';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
