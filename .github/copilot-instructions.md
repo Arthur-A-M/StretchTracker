@@ -19,6 +19,22 @@ description: "Strict StretchTracker engineering rules for React Navigation, Expo
 - Favor shared wrappers and primitives (`AppScreen`, `AppButton`) instead of duplicating layout or button behavior.
 - Keep screen responsibilities focused and move reusable logic into feature modules.
 
+## File and Folder Structure
+- Every component and screen must live in its own folder named after the component/screen (e.g., `AppButton/`, `HomeScreen/`).
+- The main file inside that folder must always be `index.tsx`. Never create a file named `ComponentName.tsx` at the folder level.
+- Any component or screen that has styles must have a `styles.ts` file in the same folder.
+- The `index.tsx` file must import its styles from `./styles` — never define styles inline in `index.tsx`.
+- Example structure:
+  ```
+  src/components/AppButton/
+    index.tsx       ← component logic, imports styles from ./styles
+    styles.ts       ← StyleSheet definitions only
+  src/screens/HomeScreen/
+    index.tsx
+    styles.ts
+  ```
+- Apply this structure to all new files. When modifying an existing file that does not follow this structure, migrate it as part of the task.
+
 ## React Native Rules
 - Use React Native primitives and platform-safe APIs; avoid browser-only assumptions.
 - Keep styles consistent with project theme modules in `src/theme`.
