@@ -1,4 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useIsFocused } from '@react-navigation/native';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,6 +18,7 @@ export function HomeScreen({ navigation }: Props) {
   const { t: tCommon } = useTranslation('common');
   const { t: tSettings } = useTranslation('settings');
   const { isLoading, stretches } = useRoutine();
+  const isFocused = useIsFocused();
   const { theme } = usePreferences();
   const palette = usePalette();
   const isDark = theme === 'dark';
@@ -26,6 +29,14 @@ export function HomeScreen({ navigation }: Props) {
     const restTime = stretch.restTime * (stretch.sets - 1);
     return total + stretchTime + restTime;
   }, 0);
+
+  useEffect(() => {
+    if (!isFocused || isLoading || stretches.length > 0) {
+      return;
+    }
+
+    navigation.navigate('EditRoutine');
+  }, [isFocused, isLoading, navigation, stretches.length]);
 
   function formatTime(seconds: number) {
     const minutes = Math.floor(seconds / 60);
