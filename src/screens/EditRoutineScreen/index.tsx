@@ -24,6 +24,7 @@ export function EditRoutineScreen({ navigation }: Props) {
   const styles = makeStyles(palette, isDark);
   const [editingStretch, setEditingStretch] = React.useState<Stretch | null>(null);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
+  const shouldShowHeader = isLoading || stretches.length > 0;
 
   function handleAddNew() {
     setEditingStretch(null);
@@ -67,16 +68,18 @@ export function EditRoutineScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
-      <View style={styles.header}>
-        <View style={styles.headerRow}>
-          <Pressable onPress={() => navigation.navigate('Home')} style={styles.backButton}>
-            <Text style={styles.backButtonText}>‹</Text>
-          </Pressable>
-          <Text style={styles.title}>{tRoutine('edit.title')}</Text>
-        </View>
+      {shouldShowHeader ? (
+        <View style={styles.header}>
+          <View style={styles.headerRow}>
+            <Pressable onPress={() => navigation.navigate('Home')} style={styles.backButton}>
+              <Text style={styles.backButtonText}>‹</Text>
+            </Pressable>
+            <Text style={styles.title}>{tRoutine('edit.title')}</Text>
+          </View>
 
-        <AppButton label={tRoutine('edit.addNewStretch')} onPress={handleAddNew} />
-      </View>
+          <AppButton label={tRoutine('edit.addNewStretch')} onPress={handleAddNew} />
+        </View>
+      ) : null}
 
       <ScrollView contentContainerStyle={styles.content}>
         {isLoading ? (
@@ -85,6 +88,7 @@ export function EditRoutineScreen({ navigation }: Props) {
           <View style={styles.emptyState}>
             <Text style={styles.emptyTitle}>{tRoutine('edit.emptyTitle')}</Text>
             <Text style={styles.emptyDescription}>{tRoutine('edit.emptyDescription')}</Text>
+            <AppButton label={tRoutine('edit.addNewStretch')} onPress={handleAddNew} />
           </View>
         ) : (
           stretches.map((stretch, index) => (

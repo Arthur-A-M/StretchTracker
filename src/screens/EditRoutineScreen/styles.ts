@@ -52,6 +52,7 @@ export function makeStyles(palette: Palette, isDark: boolean) {
     },
     emptyState: {
       alignItems: 'center',
+      gap: spacing.sm,
       paddingVertical: spacing.xxl,
     },
     emptyTitle: {
