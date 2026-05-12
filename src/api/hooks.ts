@@ -7,6 +7,7 @@ import {
   type UseQueryResult,
 } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import NetInfo from '@react-native-community/netinfo';
 
 import { AppApiError } from './errors';
 
@@ -32,20 +33,25 @@ export function useOnlineStatus(): boolean {
   const [isOnline, setIsOnline] = useState(true);
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
+    let isMounted = true;
 
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      if (!isMounted) {
+        return;
+      }
 
-    setIsOnline(window.navigator.onLine);
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+      setIsOnline(Boolean(state.isConnected) && state.isInternetReachable !== false);
+    });
+
+    void NetInfo.fetch().then((state) => {
+      if (isMounted) {
+        setIsOnline(Boolean(state.isConnected) && state.isInternetReachable !== false);
+      }
+    });
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      isMounted = false;
+      unsubscribe();
     };
   }, []);
 
