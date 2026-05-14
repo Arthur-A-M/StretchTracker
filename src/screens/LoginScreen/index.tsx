@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '../../components/AppButton';
 import { RootStackParamList } from '../../navigation/routes';
+import { useAuth } from '../../features/auth/AuthContext';
 import { usePalette } from '../../state/PreferencesContext';
 import { makeStyles } from './styles';
 
@@ -16,6 +17,7 @@ const EMAIL_FORMAT_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export function LoginScreen({ navigation }: Props) {
   const { t: tAuth } = useTranslation('auth');
   const { t: tCommon } = useTranslation('common');
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const trimmedEmail = email.trim();
@@ -30,6 +32,8 @@ export function LoginScreen({ navigation }: Props) {
       return;
     }
 
+    // TODO: Replace this placeholder with awaited login(credentials) and error feedback once API auth is implemented.
+    void login({ email: trimmedEmail, password: password.trim() });
     navigation.replace('Home');
   }
 
